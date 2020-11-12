@@ -25,9 +25,9 @@ class _MyStatefulWidget extends State<MyStatefulWidget> {
       fontWeight: FontWeight.bold, color: Colors.lightBlue, fontSize: 30);
 
   static const List<Widget> _widgetOption = <Widget>[
-    Text('Index 0 : Home', style: styleOption),
-    Text('Index 0 : Business', style: styleOption),
-    Text('Index 0 : School', style: styleOption),
+    Text('Index 0 : Home.', style: styleOption),
+    Text('Index 0 : Business.', style: styleOption),
+    Text('Index 0 : School.', style: styleOption),
   ];
 
   void _onItemTapped(int index) {
