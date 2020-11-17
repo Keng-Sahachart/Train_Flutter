@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-//import 'home_page.dart';
+import 'home_page.dart';
 
 class LoginPage extends StatefulWidget {
   /* สัมพันธ์ กับ route*/
@@ -16,7 +16,7 @@ class _LoginPageState extends State<LoginPage> {
       tag: 'hero',
       child: CircleAvatar(
         backgroundColor: Colors.transparent,
-        radius: 48.0,
+        radius: 68.0, // ขนาดวงกลม
         child: Image.asset('images/logoUser.png'),
       ),
     );
@@ -26,9 +26,12 @@ class _LoginPageState extends State<LoginPage> {
       autofocus: false,
       initialValue: '',
       decoration: InputDecoration(
-        hintText: 'Email',
+        hintText: 'Your eMail',
+        // ระยะ content กับ ขอบ
         contentPadding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 20.0),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+/*กำหนดให้มีขอบ ลักษณะ โค้งมน*/
+        border: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(6.0))),
       ),
     );
 
@@ -37,9 +40,11 @@ class _LoginPageState extends State<LoginPage> {
       initialValue: '',
       obscureText: true,
       decoration: InputDecoration(
-        hintText: 'Password',
+        hintText: 'Your Password',
         contentPadding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 20.0),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(32.0),
+        ),
       ),
     );
 
@@ -49,7 +54,7 @@ class _LoginPageState extends State<LoginPage> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
         onPressed: () {
           print('goto HomePage.tag');
-          // Navigator.of(context).pushNamed(HomePage.tag);
+          Navigator.of(context).pushNamed(HomePage.tag);
         },
         padding: EdgeInsets.all(12),
         color: Colors.lightBlue,
@@ -77,7 +82,7 @@ class _LoginPageState extends State<LoginPage> {
           padding: EdgeInsets.only(left: 24.0, right: 24.0),
           shrinkWrap: true,
           children: <Widget>[
-            /* ไม่ต้องมี () */
+            /* ตัวแปร widget ไม่ต้องมี () */
             logo,
             SizedBox(height: 45),
             email,
