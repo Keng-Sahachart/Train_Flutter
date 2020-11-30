@@ -62,4 +62,39 @@ class DatabaseHelper {
     Database db = await this.database;
     return await db.query(noteTable, orderBy: '$colPriority ASC');
   }
+
+  Future<int> insertNote(Note note) async {
+    Database db = await this.database;
+    return await db.insert(noteTable, note.toMap());
+  }
+
+  Future<int> updateNote(Note note) async {
+    Database db = await this.database;
+    return await db.update(noteTable, note.toMap(),
+        where: '$colId = ?', whereArgs: [note.id]);
+  }
+
+  Future<int> deleteNote(int id) async {
+    Database db = await this.database;
+    return await db.rawDelete('DELETE FROM $noteTable where $colId = $id');
+  }
+
+  Future<int> getCount() async {
+    Database db = await this.database;
+    List<Map<String, dynamic>> x =
+        await db.rawQuery('SELECT COUNT(*) FROM $noteTable');
+    return Sqflite.firstIntValue(x);
+  }
+
+  Future<List<Note>> getNoteList() async {
+    var noteMapList = await getNoteMapList();
+
+    int count = noteMapList.length;
+    List<Note> noteList = List<Note>();
+
+    for (int i = 0; i < count; i++) {
+      noteList.add(Note.fromMapObject(noteMapList[i]));
+    }
+    return noteList;
+  }
 }
