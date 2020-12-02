@@ -10,8 +10,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(primarySwatch: Colors.lightBlue),
         title: 'TodoListApp',
-        home: Text('NodeList()'));
+        home: NoteList() // Text('NodeList()')
+        );
   }
-
-
 }
