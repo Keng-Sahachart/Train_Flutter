@@ -77,4 +77,36 @@ class NoteListState extends State<NoteList> {
           );
         });
   }
+
+  Icon getPriorityIcon(int priority){
+    switch(priority){
+      case 1:
+        return Icon(Icons.play_arrow);
+        break;
+      case 2:
+        return Icon(Icons.keyboard_arrow_right);
+        break;
+      default:
+        return Icon(Icons.keyboard_arrow_right);
+    }
+  }
+
+  Color getPriorityColor(int priority){
+    switch(priority){
+      case 1:
+        return Colors.red;
+        break;
+      case 2:
+        return Colors.yellow;
+        break;
+      default:
+        return Colors.yellowAccent;
+    }
+  }
+
+  void _delete(BuildContext context,Note note) async {
+    int result = await databaseHelper.deleteNote(note.id);
+
+
+  }
 }
