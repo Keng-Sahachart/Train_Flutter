@@ -78,8 +78,8 @@ class NoteListState extends State<NoteList> {
         });
   }
 
-  Icon getPriorityIcon(int priority){
-    switch(priority){
+  Icon getPriorityIcon(int priority) {
+    switch (priority) {
       case 1:
         return Icon(Icons.play_arrow);
         break;
@@ -91,8 +91,8 @@ class NoteListState extends State<NoteList> {
     }
   }
 
-  Color getPriorityColor(int priority){
-    switch(priority){
+  Color getPriorityColor(int priority) {
+    switch (priority) {
       case 1:
         return Colors.red;
         break;
@@ -104,9 +104,41 @@ class NoteListState extends State<NoteList> {
     }
   }
 
-  void _delete(BuildContext context,Note note) async {
+  void _delete(BuildContext context, Note note) async {
     int result = await databaseHelper.deleteNote(note.id);
 
-
+    if (result != 0) {
+      _showSnackBar(context,'Note Deleted Succesfully');
+      updateListView();
+    }
   }
+
+  void _showSnackBar(BuildContext context ,String message){
+    final snackBar = SnackBar(content: Text(message),);
+    Scaffold.of(context).showSnackBar(snackBar);
+  }
+
+  void navigateToDetail(Note note,String title) async{
+    bool result = await Navigate.push(context,MaterialPageRoute(builder: (context){
+      return NoteDetail(Note,title);
+    }));
+
+    if(result == true){
+      updateListView();
+    }
+  }
+
+  void updateListView(){
+    final Future<Database> dbFuture = databaseHelper.initializeDatabase();
+    dbFuture.then((database){
+      Future<List<Note>> noteListFuture = databaseHelper.getNoteList();
+      noteListFuture.then((noteList){
+        setState(() {
+          this.noteList = noteList;
+          this.count = noteList.length;
+        });
+      });
+    });
+  }
+
 }
