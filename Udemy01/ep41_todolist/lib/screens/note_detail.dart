@@ -22,9 +22,36 @@ class NoteDetailState extends State<NoteDetail> {
   String appBarTitle;
   Note note;
 
+  TextEditingController titleController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
+
+  NoteDetailState(this.note,this.appBarTitle);
+
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
+    TextStyle textStyle = Theme.of(context).textTheme.title;
+
+    titleController.text = note.title;
+    descriptionController.text = note.description;
+
+    return WillPopScope(onWillPop: (){
+      moveToLastScreen();
+    },child: Scaffold(
+      appBar: AppBar(
+        title: Text(appBarTitle),
+        leading: IconButton(
+          icon:Icon(Icons.arrow_back),
+          onPressed: (){
+            moveToLastScreen();
+          },
+        ),
+      ),
+      body: Padding(
+        padding: EdgeInsets.only(top:15.0,left: 10.0,right: 10.0),
+        child: ListView(
+
+        ),
+      ),
+    ) );
   }
 }
