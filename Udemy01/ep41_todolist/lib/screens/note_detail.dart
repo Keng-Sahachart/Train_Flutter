@@ -29,14 +29,18 @@ class NoteDetailState extends State<NoteDetail> {
 
   @override
   Widget build(BuildContext context) {
-    TextStyle textStyle = Theme.of(context).textTheme.title;
+    TextStyle textStyle = Theme
+        .of(context)
+        .textTheme
+        .title;
 
     titleController.text = note.title;
     descriptionController.text = note.description;
 
     return WillPopScope(
-        onWillPop: () {
+        onWillPop: (){
           moveToLastScreen();
+//          return ;
         },
         child: Scaffold(
           appBar: AppBar(
@@ -55,15 +59,15 @@ class NoteDetailState extends State<NoteDetail> {
                 /*  first element */
                 ListTile(
                   title: DropdownButton(
-                    items: _priorities.map((String dropDownStringItem){
+                    items: _priorities.map((String dropDownStringItem) {
                       return DropdownMenuItem<String>(
-                         value: dropDownStringItem,
+                          value: dropDownStringItem,
                           child: Text(dropDownStringItem)
                       );
                     }).toList(),
                     style: textStyle,
                     value: getPriorityAsString(note.priority),
-                    onChanged: (valueSelectedByUser){
+                    onChanged: (valueSelectedByUser) {
                       setState(() {
                         debugPrint('User selected $valueSelectedByUser');
                         updatePriorityAsInt(valueSelectedByUser);
@@ -74,30 +78,137 @@ class NoteDetailState extends State<NoteDetail> {
 
                 /* Second  */
                 Padding(
-                  padding: EdgeInsets.only(top:15.0, bottom: 15.0),
+                  padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
                   child: TextField(
                     controller: titleController,
                     style: textStyle,
-                    onChanged: (value){
+                    onChanged: (value) {
                       debugPrint('Something change in Title Text Field');
                       updateTitle();
                     },
                     decoration: InputDecoration(
-                      labelText: 'Title',
-                      labelStyle: textStyle,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(5.0)
-                      )
+                        labelText: 'Title',
+                        labelStyle: textStyle,
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(5.0)
+                        )
                     ),
                   ),
 
-                )
+                ),
 
                 /* Third */
+                Padding(
+                  padding: EdgeInsets.only(top: 15.0, bottom: 15),
+                  child: TextField(
+                    controller: descriptionController,
+                    style: textStyle,
+                    onChanged: (value) {
+                      debugPrint('Something changed in Description Text Field');
+                      updateDescription();
+                    },
+                    decoration: InputDecoration(
+                      labelText: 'Description',
+                      labelStyle: textStyle,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(5.0),
+                      ),
+                    ),
+                  ),
+                ),
+
+                /*Fourth Element*/
+                Padding(
+                  padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
+                  child: Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: RaisedButton(
+                          color: Theme
+                              .of(context)
+                              .primaryColorDark,
+                          textColor: Theme
+                              .of(context)
+                              .primaryColorLight,
+                          child: Text(
+                            'Save',
+                            textScaleFactor: 1.5,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              debudPrint('Save Button clicked');
+                              _save();
+                            });
+                          },
+                        ),
+                      ),
+                      Container(
+                        width: 5.0,
+                      ),
+                      Expanded(
+                          child: RaisedButton(
+                            color: Theme
+                                .of(context)
+                                .primaryColorDark,
+                            textColor: Theme
+                                .of(context)
+                                .primaryColorLight,
+                            child: Text(
+                              'Delete',
+                              textScaleFactor: 1.5,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                debugPrint('Deelete button clicked');
+                                _delete();
+                              });
+                            },
+                          ))
+                    ],
+                  ),
+                )
 
               ],
             ),
           ),
         ));
+
+
+
+
+
   }
+
+  void moveToLastScreen() {
+
+  }
+
+  void updatePriorityAsInt(String value) {
+
+  }
+
+  void getPriorityAsString(int value) {
+
+  }
+
+  void updateTitle() {
+
+  }
+
+  void updateDescription() {
+
+  }
+
+  void _save() async {
+
+  }
+
+  void _delete() async {
+
+  }
+
+  void _showAlertDialog(String title, String message) {
+
+  }
+
 }
