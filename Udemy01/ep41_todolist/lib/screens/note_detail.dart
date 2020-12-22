@@ -29,18 +29,15 @@ class NoteDetailState extends State<NoteDetail> {
 
   @override
   Widget build(BuildContext context) {
-    TextStyle textStyle = Theme
-        .of(context)
-        .textTheme
-        .title;
+    TextStyle textStyle = Theme.of(context).textTheme.title;
 
     titleController.text = note.title;
     descriptionController.text = note.description;
 
     return WillPopScope(
-        onWillPop: (){
+        onWillPop: () {
           moveToLastScreen();
-//          return ;
+          return;
         },
         child: Scaffold(
           appBar: AppBar(
@@ -62,8 +59,7 @@ class NoteDetailState extends State<NoteDetail> {
                     items: _priorities.map((String dropDownStringItem) {
                       return DropdownMenuItem<String>(
                           value: dropDownStringItem,
-                          child: Text(dropDownStringItem)
-                      );
+                          child: Text(dropDownStringItem));
                     }).toList(),
                     style: textStyle,
                     value: getPriorityAsString(note.priority),
@@ -90,11 +86,8 @@ class NoteDetailState extends State<NoteDetail> {
                         labelText: 'Title',
                         labelStyle: textStyle,
                         border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5.0)
-                        )
-                    ),
+                            borderRadius: BorderRadius.circular(5.0))),
                   ),
-
                 ),
 
                 /* Third */
@@ -124,12 +117,8 @@ class NoteDetailState extends State<NoteDetail> {
                     children: <Widget>[
                       Expanded(
                         child: RaisedButton(
-                          color: Theme
-                              .of(context)
-                              .primaryColorDark,
-                          textColor: Theme
-                              .of(context)
-                              .primaryColorLight,
+                          color: Theme.of(context).primaryColorDark,
+                          textColor: Theme.of(context).primaryColorLight,
                           child: Text(
                             'Save',
                             textScaleFactor: 1.5,
@@ -147,68 +136,89 @@ class NoteDetailState extends State<NoteDetail> {
                       ),
                       Expanded(
                           child: RaisedButton(
-                            color: Theme
-                                .of(context)
-                                .primaryColorDark,
-                            textColor: Theme
-                                .of(context)
-                                .primaryColorLight,
-                            child: Text(
-                              'Delete',
-                              textScaleFactor: 1.5,
-                            ),
-                            onPressed: () {
-                              setState(() {
-                                debugPrint('Deelete button clicked');
-                                _delete();
-                              });
-                            },
-                          ))
+                        color: Theme.of(context).primaryColorDark,
+                        textColor: Theme.of(context).primaryColorLight,
+                        child: Text(
+                          'Delete',
+                          textScaleFactor: 1.5,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            debugPrint('Deelete button clicked');
+                            _delete();
+                          });
+                        },
+                      ))
                     ],
                   ),
                 )
-
               ],
             ),
           ),
         ));
-
-
-
-
-
   }
 
+  /// กลับไปหน้า ก่อนหน้า
   void moveToLastScreen() {
-
+    Navigator.pop(context, true);
   }
 
+  /// priority int to string
   void updatePriorityAsInt(String value) {
-
+    switch (value) {
+      case 'High':
+        note.priority = 1;
+        break;
+      case 'Low':
+        note.priority = 2;
+        break;
+    }
   }
 
-  void getPriorityAsString(int value) {
+  String getPriorityAsString(int value) {
+    String resultPriority;
 
+    switch (value) {
+      case 1:
+        resultPriority = _priorities[0]; // high
+        break;
+      case 1:
+        resultPriority = _priorities[1]; // low
+        break;
+    }
+
+    return resultPriority;
   }
 
+  /// ?
   void updateTitle() {
-
+    note.title = titleController.text;
   }
 
   void updateDescription() {
-
+    note.description = descriptionController.text;
   }
 
   void _save() async {
+    moveToLastScreen();
 
+    note.date = DateFormat.yMMMd().format(DateTime.now());
+    int result;
+
+    if(note.id != null){
+      result = await helper.updateNote(note);
+    } else { /// ถ้า == Null คือ ยังไม่มี record
+      result = await helper.insertNote(note);
+    }
+
+    if(result !=0 ){/// ถ้า != 0 แสดงว่า insert/update สำเร็จ
+      _showAlertDialog('Status', 'Save Successfully');
+    }else{
+      _showAlertDialog('Status','Ploblem Saving Note');
+    }
   }
 
-  void _delete() async {
+  void _delete() async {}
 
-  }
-
-  void _showAlertDialog(String title, String message) {
-
-  }
-
+  void _showAlertDialog(String title, String message) {}
 }
