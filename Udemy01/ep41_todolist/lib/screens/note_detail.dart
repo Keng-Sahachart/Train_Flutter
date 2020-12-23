@@ -125,7 +125,7 @@ class NoteDetailState extends State<NoteDetail> {
                           ),
                           onPressed: () {
                             setState(() {
-                              debudPrint('Save Button clicked');
+                              debugPrint('Save Button clicked');
                               _save();
                             });
                           },
@@ -205,20 +205,48 @@ class NoteDetailState extends State<NoteDetail> {
     note.date = DateFormat.yMMMd().format(DateTime.now());
     int result;
 
-    if(note.id != null){
+    if (note.id != null) {
       result = await helper.updateNote(note);
-    } else { /// ถ้า == Null คือ ยังไม่มี record
+    } else {
+      /// ถ้า == Null คือ ยังไม่มี record
       result = await helper.insertNote(note);
     }
 
-    if(result !=0 ){/// ถ้า != 0 แสดงว่า insert/update สำเร็จ
+    if (result != 0) {
+      /// ถ้า != 0 แสดงว่า insert/update สำเร็จ
       _showAlertDialog('Status', 'Save Successfully');
-    }else{
-      _showAlertDialog('Status','Ploblem Saving Note');
+    } else {
+      _showAlertDialog('Status', 'Problem Saving Note');
     }
   }
 
-  void _delete() async {}
+  void _delete() async {
+    moveToLastScreen();
 
-  void _showAlertDialog(String title, String message) {}
+    // ไม่พบ  Note
+    if (note.id != null) {
+      _showAlertDialog('Status', 'No Note was deleted.');
+      return;
+    }
+
+    int resultDeleted = await helper.deleteNote(note.id);
+
+    if (resultDeleted != 0) {
+      _showAlertDialog('Status', 'Note deleted successfully.');
+    } else {
+      _showAlertDialog('Status', 'error Occurred while deleting Note.');
+    }
+  }
+
+  void _showAlertDialog(String title, String message) {
+    AlertDialog alertDialog = AlertDialog(
+      title: Text(title),
+      content: Text(message),
+    );
+
+    showDialog(
+      context: context,
+      builder: (_) => alertDialog,
+    );
+  }
 }

@@ -22,32 +22,36 @@ class NoteListState extends State<NoteList> {
   Widget build(BuildContext context) {
     if (noteList == null) {
       noteList = List<Note>();
-      // updateListView();
+      updateListView();
     }
 
     return Scaffold(
-      appBar: AppBar(title: Text('Notes')),
-      body: // getNoteListView()
-          Scaffold(
-        body: Center(
-          child: Text('Test'),
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          debugPrint('FAB clicked');
-          // navigateToDetail(Note('','',2),'Add Note');
-        },
-        tooltip: 'Add Note',
-        child: Icon(Icons.add),
-      ),
+        appBar: AppBar(title: Text('Notes')),
+        body: getNoteListView(),
+//          Scaffold(
+//        body: Center(
+//          child: Text('Test'),
+//        ),
+//      ),
+        floatingActionButton: FloatingActionButton(
+        onPressed: ()
+    {
+      debugPrint('FAB clicked');
+       navigateToDetail(Note('','',2),'Add Note');
+    },
+    tooltip: 'Add Note',
+    child: Icon(Icons.add),
+    ),
     );
-  }
+    }
 
 /* ep 49 */
 
   ListView getNoteListView() {
-    TextStyle titleStyle = Theme.of(context).textTheme.subhead;
+    TextStyle titleStyle = Theme
+        .of(context)
+        .textTheme
+        .subhead;
 
     return ListView.builder(
         itemCount: count,
@@ -59,7 +63,7 @@ class NoteListState extends State<NoteList> {
             child: ListTile(
               leading: CircleAvatar(
                 backgroundColor:
-                    getpriorityColor(this.noteList[position].priority),
+                getPriorityColor(this.noteList[position].priority),
                 child: getPriorityIcon(this.noteList[position].priority),
               ),
               title: Text(this.noteList[position].date),
@@ -108,31 +112,32 @@ class NoteListState extends State<NoteList> {
     int result = await databaseHelper.deleteNote(note.id);
 
     if (result != 0) {
-      _showSnackBar(context,'Note Deleted Succesfully');
+      _showSnackBar(context, 'Note Deleted Succesfully');
       updateListView();
     }
   }
 
-  void _showSnackBar(BuildContext context ,String message){
+  void _showSnackBar(BuildContext context, String message) {
     final snackBar = SnackBar(content: Text(message),);
     Scaffold.of(context).showSnackBar(snackBar);
   }
 
-  void navigateToDetail(Note note,String title) async{
-    bool result = await Navigate.push(context,MaterialPageRoute(builder: (context){
-      return NoteDetail(Note,title);
+  void navigateToDetail(Note note, String title) async {
+    bool result = await Navigator.push(
+        context, MaterialPageRoute(builder: (context) {
+      return NoteDetail(note, title);
     }));
 
-    if(result == true){
+    if (result == true) {
       updateListView();
     }
   }
 
-  void updateListView(){
+  void updateListView() {
     final Future<Database> dbFuture = databaseHelper.initializeDatabase();
-    dbFuture.then((database){
+    dbFuture.then((database) {
       Future<List<Note>> noteListFuture = databaseHelper.getNoteList();
-      noteListFuture.then((noteList){
+      noteListFuture.then((noteList) {
         setState(() {
           this.noteList = noteList;
           this.count = noteList.length;
