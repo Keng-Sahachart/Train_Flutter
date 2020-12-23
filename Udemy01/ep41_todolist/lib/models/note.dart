@@ -1,4 +1,3 @@
-
 class Note {
   /* Property
   * ใส่ _ หน้า ตัวแปร เพื่อให้รู้ว่าเป็น ฟิลด์ */
@@ -46,10 +45,10 @@ class Note {
     this._date = newDate;
   }
 
-  Map<String,dynamic> toMap(){
+  Map<String, dynamic> toMap() {
     var map = Map<String, dynamic>();
 
-    if(id != null){
+    if (id != null) {
       map['id'] = _id;
     }
 
@@ -63,11 +62,9 @@ class Note {
 
   Note.fromMapObject(Map<String, dynamic> map) {
     this._id = map['id'];
-    this._title=map['title'];
-    this._description=map['description'];
-    this._description=map['priority'];
-    this._priority=map['date'];
+    this._title = map['title'];
+    this._description = map['description'];
+    this._description = map['priority'];
+    this._priority = map['date'];
   }
-
-
 }
