@@ -144,7 +144,7 @@ class NoteDetailState extends State<NoteDetail> {
                         ),
                         onPressed: () {
                           setState(() {
-                            debugPrint('Deelete button clicked');
+                            debugPrint('Deleted button clicked');
                             _delete();
                           });
                         },

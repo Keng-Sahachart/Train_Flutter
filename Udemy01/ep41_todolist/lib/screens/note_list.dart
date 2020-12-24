@@ -71,7 +71,7 @@ class NoteListState extends State<NoteList> {
               ),
               onTap: () {
                 debugPrint('ListTile Tapped');
-                navigateToDetail(this.noteList[position], 'Edie Note');
+                navigateToDetail(this.noteList[position], 'Edit Note');
               },
             ),
           );
@@ -102,7 +102,6 @@ class NoteListState extends State<NoteList> {
       default:
         return Colors.yellowAccent;
     }
-
   }
 
   void _delete(BuildContext context, Note note) async {
@@ -123,10 +122,14 @@ class NoteListState extends State<NoteList> {
 
   /// navigateToDetail
   void navigateToDetail(Note note, String title) async {
-    bool result =
-        await Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return NoteDetail(note, title);
-    }));
+    bool result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) {
+          return NoteDetail(note, title);
+        },
+      ),
+    );
 
     if (result == true) {
       updateListView();
@@ -135,7 +138,9 @@ class NoteListState extends State<NoteList> {
 
   /// updateListView
   void updateListView() {
+    ///  ติดต่อ database
     final Future<Database> dbFuture = databaseHelper.initializeDatabase();
+
     dbFuture.then((database) {
       Future<List<Note>> noteListFuture = databaseHelper.getNoteList();
       noteListFuture.then((noteList) {

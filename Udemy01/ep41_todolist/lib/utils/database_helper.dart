@@ -58,6 +58,7 @@ class DatabaseHelper {
   }
 
   /*  * ep 46  * */
+  /// qry Note ขึ้นมาให้หมด พร้อม sort โดย ส่ง ออกไป เป็น Map return เป็น key และ value
   Future<List<Map<String, dynamic>>> getNoteMapList() async {
     Database db = await this.database;
     return await db.query(noteTable, orderBy: '$colPriority ASC');
