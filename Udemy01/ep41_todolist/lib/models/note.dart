@@ -64,7 +64,7 @@ class Note {
     this._id = map['id'];
     this._title = map['title'];
     this._description = map['description'];
-    this._description = map['priority'];
-    this._priority = map['date'];
+    this._priority = map['priority'];
+    this._date = map['date'];
   }
 }
